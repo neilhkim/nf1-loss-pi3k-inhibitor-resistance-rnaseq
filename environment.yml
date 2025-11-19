@@ -1,1 +1,26 @@
+name: nf1-rnaseq
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  # General bioinformatics tools
+  - sra-tools
+  - fastqc
+  - trimmomatic
+  - star
+  - subread
+  - samtools
+
+  # R environment
+  - r-base=4.3
+  - r-essentials
+
+  # R packages for RNA-seq analysis
+  - bioconductor-deseq2
+  - bioconductor-clusterprofiler
+  - bioconductor-org.hs.eg.db
+  - r-tidyverse
+  - r-pheatmap
+  - r-enhancedvolcano
 
