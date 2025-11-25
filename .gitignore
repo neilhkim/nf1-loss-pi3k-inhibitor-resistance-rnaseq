@@ -1,4 +1,9 @@
-# Raw sequencing
+# .gitignore for RNA-seq analysis project
+
+# Raw sequencing data
+data/raw/
+data/reference/
+data/star_index/
 *.fastq
 *.fastq.gz
 *.fq
@@ -10,34 +15,27 @@
 *.sam
 *.cram
 
-# Intermediate QC / counts / cache
-*.html
-*.zip
-*.svg
-*.pdf
-*.png
-*.xml
-*.txt
-
-# R / DESeq intermidiate object
+# Large intermediate files
 *.rds
 *.RData
-*.Rhistory
-*.Rproj.user/
 
-# Nextflow / nf-core specific
+# Output directories
+results/
 work/
 .cache/
-.nextflow*
-*.command.run
-*.command.err
-*.command.out
-*.nf
 
-# Logs
+# Logs and temporary files
+Log.progress.out
 *.log
 *.tmp
 *.swp
 .DS_Store
 
+# Nextflow / nf-core 
+.nextflow*
+*.command.run
+*.command.err
+*.command.out
 
+# RStudio files
+.Rproj.user/

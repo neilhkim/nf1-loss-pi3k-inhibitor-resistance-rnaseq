@@ -1,0 +1,1 @@
+T47D CTRL vs NF1 KO gene expression comparison via RNA profiling 1) at baseline and 2) after 48 hours of treatment with either BYL719 or DMSO. 3 replicates.
