@@ -1,26 +1,32 @@
 name: nf1-rnaseq
 channels:
-  - bioconda
   - conda-forge
+  - bioconda # Don't let bioconda be above conda-forge
   - defaults
+
 dependencies:
-  # General bioinformatics tools
-  - sra-tools
-  - fastqc
-  - trimmomatic
-  - star
-  - subread
-  - samtools
+  # Core bioinformatics tools
+  - sra-tools=3.1.1
+  - fastqc=0.12.1
+  - trimmomatic=0.39
+  - star=2.7.11a
+  - subread=2.0.6
+  - samtools=1.20 # Very important pin - avoids old zlib issues
 
-  # R environment
-  - r-base=4.3
-  - r-essentials
+  # R base
+  - r-base=4.4
 
-  # R packages for RNA-seq analysis
+  # R packages (CRAN-ish, via conda-forge)
+  - r-tidyverse
+  - r-pheatmap
+  - r-languageserver
+  - r-msigdbr
+
+  # R Bioconductor packages
   - bioconductor-deseq2
   - bioconductor-clusterprofiler
   - bioconductor-org.hs.eg.db
-  - r-tidyverse
-  - r-pheatmap
-  - r-enhancedvolcano
-
+  - bioconductor-enhancedvolcano
+  - bioconductor-enrichplot
+  - bioconductor-apeglm
+  - bioconductor-pathview
