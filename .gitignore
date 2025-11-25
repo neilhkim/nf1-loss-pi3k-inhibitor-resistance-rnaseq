@@ -1,0 +1,43 @@
+# Raw sequencing
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+
+# Alignments
+*.bam
+*.bai
+*.sam
+*.cram
+
+# Intermediate QC / counts / cache
+*.html
+*.zip
+*.svg
+*.pdf
+*.png
+*.xml
+*.txt
+
+# R / DESeq intermidiate object
+*.rds
+*.RData
+*.Rhistory
+*.Rproj.user/
+
+# Nextflow / nf-core specific
+work/
+.cache/
+.nextflow*
+*.command.run
+*.command.err
+*.command.out
+*.nf
+
+# Logs
+*.log
+*.tmp
+*.swp
+.DS_Store
+
+
