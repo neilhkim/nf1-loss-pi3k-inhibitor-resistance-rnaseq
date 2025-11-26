@@ -32,6 +32,12 @@ dds_vehRef <- dds_vehRef[rowSums(counts(dds_vehRef) >= 10) >= 3, ] # Keep genes 
 
 # Run DESeq and save results
 dds_vehRef <- DESeq(dds_vehRef)
+
+# Create output directory if it doesn't exist
+if (!dir.exists("data/processed/deseq")) {
+    dir.create("data/processed/deseq", recursive = TRUE)
+}
+
 saveRDS(dds_vehRef, "data/processed/deseq/dds_vehRef.rds")
 cat("DESeq() finished and dds_vehRef.rds saved.\n")
 
