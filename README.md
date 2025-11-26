@@ -185,16 +185,16 @@ micromamba activate nf1-rnaseq
 ### Run scripts
 
 ```bash
-Rscript analysis/05_deseq2/01_load_counts.R
-Rscript analysis/05_deseq2/02_build_dds.R
-Rscript analysis/05_deseq2/04_vst_and_pca.R
-Rscript analysis/05_deseq2/05_contrast_ctrl_byl_vs_ctrl_veh.R
-Rscript analysis/05_deseq2/06_contrast_nf1_veh_vs_ctrl_veh.R
-Rscript analysis/05_deseq2/07_contrast_nf1ko_byl_vs_ctrl_byl.R
-Rscript analysis/05_deseq2/07_volcano_detailed.R
-Rscript analysis/05_deseq2/09_gsea_nf1ko_byl_vs_ctrl_byl.R
-Rscript analysis/05_deseq2/10_pathview_nf1ko_byl_vs_ctrl_byl.R
-Rscript analysis/05_deseq2/10_pheatmap_nf1ko_byl_vs_ctrl_byl.R
+Rscript analysis/01_deseq/01_load_counts.R
+Rscript analysis/01_deseq/02_build_dds.R
+Rscript analysis/01_deseq/04_vst_and_pca.R
+Rscript analysis/01_deseq/05_contrast_ctrl_byl_vs_ctrl_veh.R
+Rscript analysis/01_deseq/06_contrast_nf1_veh_vs_ctrl_veh.R
+Rscript analysis/01_deseq/07_contrast_nf1ko_byl_vs_ctrl_byl.R
+Rscript analysis/01_deseq/07_volcano_detailed.R
+Rscript analysis/01_deseq/09_gsea_nf1ko_byl_vs_ctrl_byl.R
+Rscript analysis/01_deseq/10_pathview_nf1ko_byl_vs_ctrl_byl.R
+Rscript analysis/01_deseq/10_pheatmap_nf1ko_byl_vs_ctrl_byl.R
 ```
 
 ## Packages
