@@ -175,7 +175,14 @@ Together, these confirm and extend the interpretation that:
 
 ## How to run the main pieces
 
-From the project root:
+### Create env from environment.yml
+
+```bash
+micromamba env create -f environment.yml
+micromamba activate nf1-rnaseq
+```
+
+### Run scripts
 
 ```bash
 Rscript analysis/05_deseq2/01_load_counts.R
