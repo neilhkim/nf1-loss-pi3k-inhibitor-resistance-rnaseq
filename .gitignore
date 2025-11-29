@@ -24,6 +24,16 @@ results/
 work/
 .cache/
 
+# Ignore Windows metadata
+*.Zone.Identifier
+
+# Ignore raw SRA directories
+SRR*/
+
+# Ignore XML/PNG pathway files dumped during debugging
+*.xml
+hsa*.png
+
 # Logs and temporary files
 Log.progress.out
 *.log
