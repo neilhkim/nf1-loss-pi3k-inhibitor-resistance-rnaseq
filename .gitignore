@@ -39,3 +39,6 @@ Log.progress.out
 
 # RStudio files
 .Rproj.user/
+
+# Sync count matrix file downloaded from GEO 
+!data/raw/*.txt
