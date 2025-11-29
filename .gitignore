@@ -50,5 +50,8 @@ Log.progress.out
 # RStudio files
 .Rproj.user/
 
+# Informational text files
+analysis/01_deseq/*.txt
+
 # Sync count matrix file downloaded from GEO 
 !data/raw/*.txt
