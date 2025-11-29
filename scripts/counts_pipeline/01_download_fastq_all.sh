@@ -1,3 +1,4 @@
+# scripts/download_fastq_all.sh
 #!/usr/bin/env bash
 set -euo pipefail
 
