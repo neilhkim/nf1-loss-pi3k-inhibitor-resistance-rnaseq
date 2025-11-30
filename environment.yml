@@ -8,6 +8,7 @@ dependencies:
   # Core bioinformatics tools
   - sra-tools=3.1.1
   - fastqc=0.12.1
+  - fastp
   - trimmomatic=0.39
   - star=2.7.11a
   - subread=2.0.6
