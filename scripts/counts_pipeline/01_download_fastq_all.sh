@@ -1,5 +1,7 @@
-# scripts/download_fastq_all.sh
 #!/usr/bin/env bash
+# scripts/download_fastq_all.sh
+# Download all FASTQ files for the project using prefetch and fasterq-dump
+
 set -euo pipefail
 
 # Directory to store FASTQ files
