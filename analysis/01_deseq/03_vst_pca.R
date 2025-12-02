@@ -1,4 +1,6 @@
-# 04_vst_and_pca.R
+# 03_vst_and_pca.R
+# Perform variance stabilizing transformation and PCA on DESeq2 dataset
+
 
 library(DESeq2)
 library(ggplot2)
