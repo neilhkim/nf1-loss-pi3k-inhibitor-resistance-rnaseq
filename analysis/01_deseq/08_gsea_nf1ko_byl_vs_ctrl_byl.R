@@ -1,4 +1,4 @@
-# 09_gsea_nf1ko_byl_vs_ctrl_byl.R
+# 08_gsea_nf1ko_byl_vs_ctrl_byl.R
 # GSEA for NF1KO_BYL vs CTRL_BYL (resistance contrast)
 
 suppressPackageStartupMessages({

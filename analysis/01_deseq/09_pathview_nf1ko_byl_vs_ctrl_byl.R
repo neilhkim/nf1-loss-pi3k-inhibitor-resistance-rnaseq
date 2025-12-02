@@ -1,4 +1,4 @@
-# 10_pathview_nf1ko_byl_vs_ctrl_byl.R
+# 09_pathview_nf1ko_byl_vs_ctrl_byl.R
 # Generate pathway maps using Pathview for significant pathways from GSEA
 # Comparing NF1KO_BYL vs CTRL_BYL
 

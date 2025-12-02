@@ -1,4 +1,4 @@
-# 08_volcano_plots.R
+# 07_volcano_plots.R
 # Make volcano plots for the three main contrasts
 
 library(tidyverse)

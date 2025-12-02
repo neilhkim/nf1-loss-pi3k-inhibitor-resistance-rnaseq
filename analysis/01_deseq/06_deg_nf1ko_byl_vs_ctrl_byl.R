@@ -1,4 +1,5 @@
-# 07_contrast_nf1ko_byl_vs_ctrl_byl.R
+# 06_contrast_nf1ko_byl_vs_ctrl_byl.R
+# Perform differential expression analysis for NF1KO_BYL vs CTRL_BYL contrast
 
 library(DESeq2)
 library(tidyverse)
