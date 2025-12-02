@@ -1,4 +1,6 @@
 #!/usr/bin/env Rscript
+# 00_make_runs_tsv.R
+# Create runs.tsv mapping SRR run IDs to sample IDs and metadata
 
 library(tidyverse)
 
