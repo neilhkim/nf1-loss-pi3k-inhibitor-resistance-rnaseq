@@ -1,4 +1,5 @@
-## 02_build_dds.R
+# 02_build_dds.R
+# Build DESeq2 datasets and run DESeq
 
 library(tidyverse)
 library(DESeq2)
