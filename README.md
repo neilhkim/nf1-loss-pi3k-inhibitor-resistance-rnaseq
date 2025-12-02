@@ -1,20 +1,39 @@
 # NF1 Loss Drives PI3Kα Inhibitor Resistance - RNA-seq Reanalysis (GSE207514)
 
-This repo is an **independent reanalysis** of public RNA-seq data from **GSE207514**.
-All wet-lab experiments were performed by the original study.
+This repo is an **independent reanalysis** of public RNA-seq data from **[GSE207514](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE207514)**, provided as part of the study by Auf der Maur et. al, Cell Rep Med, 2023 ([PMID: 37044095](https://pubmed.ncbi.nlm.nih.gov/37044095/)).
+
+While the authors present a large and multi-modal study, which delivers an insightful story, the analysis details for the GSE207514 (T47D RNA-seq) dataset are not provided. 
+
+This repository reconstructs the complete RNA-seq workflow from the raw FASTQ files, including 
+- Read processing (STAR + featureCounts), 
+- DESeq2 modeling, 
+- Visualization (PCA, volcano plots, heatmaps), and 
+- Pathway-level exploration (Hallmark/Reactome GSEA + KEGG via Pathview), 
+as well as an **explicit three-contrast design** for this dataset:
+
+These three contrasts correspond to:
+1. CTRL_BYL vs CTRL_Veh – drug effect in NF1-intact cells.
+2. NF1_Veh vs CTRL_Veh – baseline transcriptional effect of NF1 loss.
+3. NF1_BYL vs CTRL_BYL – NF1-mediated resistance under PI3Kα inhibition.
+
+The original paper does not explicitly describe this three-contrast design for the T47D RNA-seq subset; here it is made explicit to clarify the experimental logic.
+
+Through this, I was able to highlight detailed features such as the FOXO-associated inhibitor response in CTRL cells, reflecting a classical stress program induced by PI3K inhibition, and persistent MAPK, E2F, MYC, and G2M activity in NF1-KO cells under the inhibition, which act as bypass mechanisms that sustain proliferation. 
+
+While the original study does not specify the methods, I use STAR, featureCounts for alignment and quantification. For differential expression, I use DESeq2, while the authors have used edgeR (see Tables S6 and S7 of the paper). I also use Hallmark and Reactome gene sets for pathway-level enrichment analysis, while the authors used Hallmark and MsigDB (see Figure S3 of the paper). 
+
+Using alternative methods where the authors' method is known helps validate the robustness and reproducibility of their reported findings.
+
+---
 
 This project aims to:
 
-- **Demonstrates my skills** in RNA-seq analysis (DESeq2, GSEA, Pathview, visualization) on a real oncology signaling dataset.
-- **Reproduce and validate the authors' main conclusions** about NF1-loss-mediated resistance to the PI3Kα inhibitor alpelisib.
-- **Provide additional analyses** not shown in the authors' paper by:
-  - Performing PCA analysis 
-    - *Showing the degree of clustering between tested conditions.*
-  - Inspecting heatmaps of top DE genes to visualize FOXO-like drug response programs under the inhibitor.
-    - *Providing a clear view of condition-specific expression shifts.*
+- **Demonstrates my skills** in RNA-seq analysis (STAR alignment, DESeq2, GSEA, Pathview, visualization) on a real oncology signaling dataset.
+- **Reproduce and validate the authors' main conclusions** about NF1-loss-mediated resistance to the PI3Kα inhibitor Alpelisib.
+- **Provide an enhanced analysis** compared to the original study by:
   - Emphasizing KRAS/MAPK vs PI3K signaling using Hallmark + Reactome GSEA and KEGG overlays. 
-    - *I use the current msigdbr gene sets, which provide Hallmark and Reactome but not KEGG (the original paper analyzed Hallmark and KEGG pathways, with only limited use of Reactome).*
-
+  - Inspecting heatmaps of top DE genes to visualize FOXO-like drug response programs under Alpelisib (BYL719; the PI3Kα drug used in the study).
+    - *This level of ranked-gene expression patterning is not shown in the original figures and adds a clear view of condition-specific expression shifts.*
 
 ## Background
 
@@ -23,7 +42,7 @@ This project aims to:
 - Alpelisib (BYL719; a PI3Kα inhibitor) improves progression-free survival in PIK3CA-mutant patients.
 - However, reisistance builds.
 - NF1, a tumor supressor and RAS-GAP, when absent, has been identified to enable bypassing of PI3Kα inhibition by Alpelisib.
-- By reanalyzing this dataset, I hoped to indenpendently examine how NF1 loss reshapes drug response at the transcriptome level. In particular I hoped to examine:
+- By reanalyzing this dataset, I indenpendently examine how NF1 loss reshapes drug response at the transcriptome level. In particular I examine:
     - which findings are reproducible under a slightly different analytical approach, and
     - how broad PI3K and MAPK pathway activities reorganize under NF1 loss.
 
@@ -35,7 +54,7 @@ This project aims to:
     - CTRL_Veh (control, vehicle)
     - CTRL_BYL (control, alpelisib)
     - NF1_Veh (NF1 knockout, vehicle)
-    - **NF1_BYL (NF1 knockout, alpelisib)** 
+    - **NF1_BYL (NF1 knockout, Alpelisib)** 
 
 - This design allows separation of 
     - drug effects,
@@ -60,36 +79,44 @@ This project aims to:
 
 The analysis is organized into two stages:
 
-1. **`analysis/00_counts_pipeline/`** – scripts (to be added) that will regenerate the raw count matrix from FASTQ files.
+1. **`scripts/counts_pipeline/`** – scripts that will regenerate the raw count matrix from FASTQ files.
 2. **`analysis/01_deseq/`** – the full downstream DESeq2-based transcriptomic analysis used in this reanalysis.
 
 ---
 
-### `analysis/00_counts_pipeline/` *(to be added)*
+### `scripts/counts_pipeline/` 
 
-This folder will contain a complete count-generation pipeline that produces a raw gene-by-sample count matrix from FASTQ files.  
-The intended workflow is:
+This folder contains a complete count-generation pipeline that produces a raw gene-by-sample count matrix from FASTQ files.  
 
-1. **Quality control**
-   - Run `fastqc` on FASTQs.
+The workflow:
 
-2. **Optional trimming**
-   - Use tools such as `trimmomatic` if adapter or quality trimming is needed.
+1. **Create run metadata**
+   - Use `00_make_runs_tsv.R` to build `data/metadata/runs.tsv` from the GEO run info.
 
-3. **Alignment with STAR**
-   - Build a STAR genome index.
-   - Align sequences with `STAR --runThreadN ...`.
-   - Generate sorted BAM files per sample.
+2. **Download FASTQs**
+   - Run `01_download_fastq_all.sh` to download all FASTQ files for the runs in `runs.tsv`.
 
-4. **Quantification with featureCounts**
-   - Run `featureCounts -T ...` to assign aligned reads to genes.
-   - Produce a unified raw count matrix.
+3. **Quality control**
+   - Run `02_fastqc.sh` on the downloaded FASTQs.
 
-5. **Save outputs**
-   - `counts_matrix.raw.rds`
-   - `gene_annotation.rds`
+4. **Optional trimming**
+   - Use `03_trim_reads.sh` (Trimmomatic) if adapter or quality trimming is needed.
 
-Although this reanalysis uses the count table provided by GSE207514, adding this pipeline will make the repository fully reproducible from raw FASTQ files.
+5. **Alignment with STAR**
+   - Run `04_star_align.sh` to build/use a STAR genome index and align reads.
+   - Produces sorted BAM files per sample.
+
+6. **Quantification with featureCounts**
+   - Run `05_featurecounts.sh` to assign aligned reads to genes.
+   - Generates a unified raw count matrix across samples.
+
+7. **Summarize counts**
+   - Use `06_summarize_counts.R` to tidy the featureCounts output.
+   - Saves:
+     - `counts_matrix.raw.rds`
+     - `gene_annotation.rds`
+
+The count table provided by GSE207514 will be validated from this output reproduced from raw FASTQ files.
 
 ---
 
@@ -138,8 +165,8 @@ Each script:
 
 #### 6. GSEA (Hallmark + Reactome)  
 **`08_gsea_nf1ko_byl_vs_ctrl_byl.R`**
-- Uses **apeglm-shrunken** log2FC values.
-- Runs GSEA with Hallmark and Reactome gene sets (msigdbr).
+- Uses **apeglm-shrunken** log2FC (DESeq2 log2 fold-changes with apeglm shrinkage to stabilize estimates) values.
+- Runs GSEA with Hallmark and Reactome gene sets.
 - Saves enrichment tables, dotplots, and selected GSEA curves.
 
 #### 7. KEGG pathway overlays  
@@ -196,7 +223,7 @@ Below are a few representative outputs generated by the pipeline.
 Together, these confirm and extend the interpretation that:
 > NF1 loss reduces dependence on PI3Kα and enables escape through Ras-driven parallel signaling.
 
-## How to run the main pieces
+### How to run the main pieces
 
 ### Create env from environment.yml
 
@@ -205,7 +232,66 @@ micromamba env create -f environment.yml
 micromamba activate nf1-rnaseq
 ```
 
-### Run scripts
+### 1) (Optional) Regenerate counts from FASTQ – `scripts/counts_pipeline/`
+
+  > Use this if you want to start from raw FASTQ files and reproduce alignment/quantification.  
+  > If you only need to reproduce the DESeq2 / GSEA analysis from the GEO-provided count table, you can skip to **2) Downstream DESeq2 analysis**.
+
+From the project root:
+
+```bash
+# 0. Install R packages (once, inside nf1-rnaseq env)
+Rscript scripts/install_R_packages.R
+
+# 1. Create run metadata
+Rscript scripts/counts_pipeline/00_make_runs_tsv.R
+
+# 2. Download FASTQs
+bash scripts/counts_pipeline/01_download_fastq_all.sh
+
+# 3. Quality control
+bash scripts/counts_pipeline/02_fastqc.sh
+
+# 4. Optional trimming (Trimmomatic)
+bash scripts/counts_pipeline/03_trim_reads.sh
+
+# 5. Alignment with STAR
+bash scripts/counts_pipeline/04_star_align.sh
+
+# 6. Quantification with featureCounts
+bash scripts/counts_pipeline/05_featurecounts.sh
+
+# 7. Summarize counts
+Rscript scripts/counts_pipeline/06_summarize_counts.R
+```
+
+Outputs (key locations):
+
+- **Metadata**
+  - `data/metadata/runs.tsv` – run-level metadata generated from GEO
+
+- **Raw reads and QC**
+  - `data/fastq/` – downloaded FASTQ files (naming matches `runs.tsv`)
+  - `results/fastqc_raw/` – FastQC reports for raw reads
+  - `results/fastqc_trimmed/` – FastQC reports for trimmed reads (if trimming run)
+
+- **Trimmed reads (optional)**
+  - `data/fastq_trimmed/` – trimmed FASTQs from Trimmomatic
+
+- **Alignments**
+  - `data/star_index/` – STAR genome index
+  - `data/aligned/` – sorted BAM files per sample
+
+- **Counts**
+  - `data/counts/featurecounts/` – raw featureCounts outputs
+  - `data/processed/counts/` – summarized objects, e.g.:
+    - `counts_matrix.raw.rds`
+    - `gene_annotation.rds`
+
+
+### 2) Downstream DESeq2 analysis – `analysis/01_deseq/`
+
+From the project root:
 
 ```bash
 Rscript analysis/01_deseq/01_load_counts.R
@@ -221,7 +307,29 @@ Rscript analysis/01_deseq/09_pathview_nf1ko_byl_vs_ctrl_byl.R
 Rscript analysis/01_deseq/10_pheatmap_nf1ko_byl_vs_ctrl_byl.R
 ```
 
+Outputs (key locations):
+
+- **DESeq2 objects and DEG tables**
+  - `data/processed/deseq/` – `dds_*.rds`, `vst_*.rds`
+  - `results/tables/deg/` – full and filtered DEG tables for each contrast
+
+- **PCA and volcano plots**
+  - `results/figures/pca/` – VST PCA plots
+  - `results/figures/volcano/` – basic and labeled volcano plots
+
+- **GSEA results (Hallmark + Reactome)**
+  - `results/tables/gsea/` – ranked gene lists, enrichment tables
+  - `results/figures/gsea/` – enrichment plots
+
+- **KEGG overlays and heatmaps**
+  - `results/figures/pathview/` – Pathview KEGG pathway diagrams
+  - `results/figures/heatmap/` – pheatmap images for NF1KO_BYL vs CTRL_BYL
+
 ## Packages
 
-Conda/Micromamba environment with R 4.4.
-Key packages: DESeq2, clusterProfiler, msigdbr, enrichplot, pathview, org.Hs.eg.db, tidyverse, pheatmap.
+Conda/Micromamba environment with R 4.4 and standard RNA‑seq tooling (via `environment.yml`):
+
+- **R / Bioconductor**: DESeq2, clusterProfiler, org.Hs.eg.db, EnhancedVolcano, tidyverse, pheatmap
+- **Enrichment / pathway**: msigdbr, enrichplot, pathview
+- **Alignment / quantification**: STAR, featureCounts (subread), samtools
+- **QC / preprocessing**: FastQC, Trimmomatic, sra-tools
