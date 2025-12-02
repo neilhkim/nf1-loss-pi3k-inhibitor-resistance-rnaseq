@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# 02_fastqc.sh
 # Run FastQC on FASTQs
 
 set -euo pipefail
