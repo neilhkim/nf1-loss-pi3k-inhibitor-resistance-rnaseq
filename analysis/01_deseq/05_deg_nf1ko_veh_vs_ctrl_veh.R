@@ -1,4 +1,5 @@
-# 06_contrast_nf1_veh_vs_ctrl_veh.R
+# 05_contrast_nf1_veh_vs_ctrl_veh.R
+# Perform differential expression analysis for NF1KO_Veh vs CTRL_Veh contrast
 
 library(DESeq2)
 library(tidyverse)
