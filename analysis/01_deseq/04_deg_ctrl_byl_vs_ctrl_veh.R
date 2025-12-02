@@ -1,4 +1,5 @@
-# 05_contrast_ctrl_byl_vs_ctrl_veh
+# 04_contrast_ctrl_byl_vs_ctrl_veh
+# Perform differential expression analysis for CTRL_BYL vs CTRL_Veh contrast
 
 library(DESeq2)
 library(tidyverse)
