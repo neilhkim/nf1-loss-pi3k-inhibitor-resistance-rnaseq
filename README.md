@@ -7,11 +7,14 @@ This project aims to:
 
 - **Demonstrates my skills** in RNA-seq analysis (DESeq2, GSEA, Pathview, visualization) on a real oncology signaling dataset.
 - **Reproduce and validate the authors' main conclusions** about NF1-loss-mediated resistance to the PI3Kα inhibitor alpelisib.
-- **Provide an enhanced analysis** compared to the original study by:
+- **Provide additional analyses** not shown in the authors' paper by:
+  - Performing PCA analysis 
+    - *Showing the degree of clustering between tested conditions.*
+  - Inspecting heatmaps of top DE genes to visualize FOXO-like drug response programs under the inhibitor.
+    - *Providing a clear view of condition-specific expression shifts.*
   - Emphasizing KRAS/MAPK vs PI3K signaling using Hallmark + Reactome GSEA and KEGG overlays. 
-    - *The original paper analyzed Hallmark and KEGG pathways, with only limited use of Reactome. In this reanalysis, I use the current msigdbr gene sets, which provide Hallmark and Reactome but not KEGG. So I perform systematic enrichment with Hallmark + Reactome, and include KEGG through Pathview overlays.*
-  - Inspecting heatmaps of top DE genes to visualize FOXO-like drug response programs under Alpelisib (BYL719; a PI3Kα drug).
-    - *This level of ranked-gene expression patterning is not shown in the original figures and adds a clear view of condition-specific expression shifts.*
+    - *I use the current msigdbr gene sets, which provide Hallmark and Reactome but not KEGG (the original paper analyzed Hallmark and KEGG pathways, with only limited use of Reactome).*
+
 
 ## Background
 
