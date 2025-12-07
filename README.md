@@ -103,8 +103,8 @@ The workflow:
    - Use `03_trim_reads.sh` (Trimmomatic) if adapter or quality trimming is needed.
 
 5. **Alignment with STAR**
-   - Run `04_star_align.sh` to build/use a STAR genome index and align reads.
-   - Produces sorted BAM files per sample.
+  - Run `04_star_align.sh` to build/use a STAR genome index and align reads.
+  - Produces sorted BAM files per sample under `data/aligned/`.
 
 6. **Quantification with featureCounts**
    - Run `05_featurecounts.sh` to assign aligned reads to genes.
@@ -263,6 +263,9 @@ bash scripts/counts_pipeline/05_featurecounts.sh
 
 # 7. Summarize counts
 Rscript scripts/counts_pipeline/06_summarize_counts.R
+
+# 8. Convert Ensembl IDs to ENTREZ/SYMBOL
+Rscript scripts/counts_pipeline/07_convert_ensembl_to_entrez.R
 ```
 
 Outputs (key locations):
@@ -272,11 +275,10 @@ Outputs (key locations):
 
 - **Raw reads and QC**
   - `data/fastq/` – downloaded FASTQ files (naming matches `runs.tsv`)
-  - `results/fastqc_raw/` – FastQC reports for raw reads
-  - `results/fastqc_trimmed/` – FastQC reports for trimmed reads (if trimming run)
+  - `results/fastqc/` – FastQC HTML reports
 
 - **Trimmed reads (optional)**
-  - `data/fastq_trimmed/` – trimmed FASTQs from Trimmomatic
+  - `data/trimmed_fastq/` – trimmed FASTQs from Trimmomatic
 
 - **Alignments**
   - `data/star_index/` – STAR genome index
@@ -284,9 +286,13 @@ Outputs (key locations):
 
 - **Counts**
   - `data/counts/featurecounts/` – raw featureCounts outputs
-  - `data/processed/counts/` – summarized objects, e.g.:
-    - `counts_matrix.raw.rds`
-    - `gene_annotation.rds`
+  - `data/processed/` – summarized objects, e.g.:
+    - `counts_matrix_ensembl.rds`
+    - `counts_matrix_ensembl.csv`
+  - Derived matrices/annotations (after step 8):
+    - `data/processed/counts_matrix_entrez.rds`
+    - `data/processed/counts_matrix_symbol.rds`
+    - `data/processed/gene_annotations_entrez.rds`
 
 
 ### 2) Downstream DESeq2 analysis – `analysis/01_deseq/`
@@ -322,7 +328,7 @@ Outputs (key locations):
   - `results/figures/gsea/` – enrichment plots
 
 - **KEGG overlays and heatmaps**
-  - `results/figures/pathview/` – Pathview KEGG pathway diagrams
+  - `results/pathview/` – Pathview KEGG pathway diagrams
   - `results/figures/heatmap/` – pheatmap images for NF1KO_BYL vs CTRL_BYL
 
 ## Packages
