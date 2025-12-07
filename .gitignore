@@ -16,6 +16,10 @@ data/star_index/
 *.cram
 SRR*
 
+# Count files
+data/counts/featurecounts/featurecounts_gene_counts.txt
+data/counts/featurecounts/featurecounts_gene_counts.txt.summary
+
 # Large intermediate files
 *.rds
 *.RData
