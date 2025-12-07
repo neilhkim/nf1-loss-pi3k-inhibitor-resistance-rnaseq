@@ -11,10 +11,10 @@ suppressPackageStartupMessages({
 cat("[summarize] Starting summarization of featureCounts matrix.\n")
 
 # Input and output paths
-fc_file <- "results/featurecounts/featurecounts_gene_counts.txt"
+fc_file <- "data/counts/featurecounts/featurecounts_gene_counts.txt"
 runs_tsv <- "data/metadata/runs.tsv"
-out_rds <- "results/counts_matrix_generated.rds"
-out_csv <- "results/counts_matrix_generated.csv"
+out_rds <- "data/processed/counts_matrix_ensembl.rds"
+out_csv <- "data/processed/counts_matrix_ensembl.csv"
 
 # Step 1: read counts
 cat("[summarize] Reading featureCounts file:\n", fc_file, "\n")

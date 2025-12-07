@@ -8,7 +8,7 @@ set -euo pipefail
 RUNS_TSV="data/metadata/runs.tsv"
 STAR_INDEX="data/star_index"
 TRIMMED_DIR="data/trimmed_fastq"
-OUT_DIR="results/star"
+OUT_DIR="data/aligned"
 LOG_DIR="results/logs/star"
 
 # How many STAR processes to run in parallel

@@ -5,9 +5,9 @@
 set -euo pipefail
 
 RUNS_TSV="data/metadata/runs.tsv"
-BAM_DIR="results/star"
+BAM_DIR="data/aligned"
 GTF="data/reference/gencode.v45.annotation.gtf"
-OUT_DIR="results/featurecounts"
+OUT_DIR="data/counts/featurecounts"
 
 # featureCounts options
 THREADS="${1:-4}" # Number of threads to use (1st arg). Default: 4
