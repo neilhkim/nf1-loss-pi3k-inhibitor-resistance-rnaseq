@@ -57,7 +57,11 @@ download_geo_table <- function(force_download = FALSE, ask_overwrite = TRUE) {
             do_overwrite <- TRUE
             if (ask_overwrite) {
                 cat("[load] GEO txt exists at:\n        ", txt_path, "\n")
-                ans <- readline(prompt = "[load] Overwrite existing GEO txt? [y/N]: ")
+                cat("[load] Overwrite existing GEO txt? [y/N]: ")
+                flush.console()
+                ans <- tryCatch({
+                    readLines(con = "stdin", n = 1)
+                }, error = function(e) "")
                 do_overwrite <- tolower(trimws(ans)) %in% c("y", "yes")
             }
             if (!do_overwrite) {
