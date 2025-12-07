@@ -19,6 +19,7 @@ SRR*
 # Count files
 data/counts/featurecounts/featurecounts_gene_counts.txt
 data/counts/featurecounts/featurecounts_gene_counts.txt.summary
+data/processed/counts_matrix_ensembl.csv
 
 # Large intermediate files
 *.rds
