@@ -537,7 +537,7 @@ for (cat_name in categories) {
       label = cat_name,
       size  = 5,
       fontface = "bold",
-      hjust = 0
+      hjust = 0.5    # <-- center horizontally
     ) +
     theme_void() +
     theme(
@@ -559,25 +559,25 @@ for (cat_name in categories) {
     # Pad chunk with dummy genes so row always has exactly 5 facets
     missing_n <- genes_per_row - length(genes_chunk)
     if (missing_n > 0) {
-        dummy_genes <- paste0("EMPTY_", seq_len(missing_n))
-        genes_chunk <- c(genes_chunk, dummy_genes)
-    }
+      dummy_genes <- paste0("EMPTY_", seq_len(missing_n))
+      genes_chunk <- c(genes_chunk, dummy_genes)
+  }
 
     # Build data frame including dummy rows with NA expression
     df_row <- df_cat %>%
-        filter(SYMBOL %in% genes_chunk) %>%
-        mutate(SYMBOL = factor(SYMBOL, levels = genes_chunk))
+      filter(SYMBOL %in% genes_chunk) %>%
+      mutate(SYMBOL = factor(SYMBOL, levels = genes_chunk))
 
     # Add dummy NA rows if needed
     if (missing_n > 0) {
-        df_dummy <- expand.grid(
-        SYMBOL    = dummy_genes,
-        condition = levels(df_row$condition),
-        source    = c("this-project-generated", "GEO-downloaded"),
-        expr_rel  = NA_real_
-        )
-        df_row <- bind_rows(df_row, df_dummy)
-    }
+      df_dummy <- expand.grid(
+      SYMBOL    = dummy_genes,
+      condition = levels(df_row$condition),
+      source    = c("this-project-generated", "GEO-downloaded"),
+      expr_rel  = NA_real_
+      )
+      df_row <- bind_rows(df_row, df_dummy)
+  }
 
     p_row <- ggplot(
         df_row,
