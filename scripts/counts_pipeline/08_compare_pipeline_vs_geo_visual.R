@@ -1,12 +1,14 @@
 #!/usr/bin/env Rscript
 # 08_compare_pipeline_vs_geo_visual.R
 # Visual comparison between this-project-generated counts (ENTREZ-based)
-# and GEO-downloaded counts (ENTREZ-based), including:
-# - Global QC plots (scatter, Bland–Altman, ratio, MA)
-# - Condition-level trends for pathway/control genes
-#   * One PNG per category
-#   * One tall multi-row PNG combining all categories,
-#     where each gene row has the same height across categories
+# and GEO-downloaded counts (ENTREZ-based). Produces:
+# - Global summaries: scatter (log10 totals), Bland–Altman (log10),
+#   ratio distribution (log2), and MA plot (A vs M in log2).
+# - Condition-level trends for selected pathway/control genes:
+#   * One PNG per category (faceted by SYMBOL)
+#   * One tall multi-row PNG combining all categories; genes are arranged
+#     in rows of five to maintain a consistent per-row height across categories.
+# Output directory: results/counts_tables_compare/figures
 
 suppressPackageStartupMessages({
   library(tidyverse)
@@ -110,8 +112,8 @@ cat("[compare] Shared ENTREZ IDs: ", length(shared_entrez), "\n")
 pipeline_shared <- counts_pipeline[shared_entrez, , drop = FALSE]
 geo_shared      <- counts_geo_mat[shared_entrez, , drop = FALSE]
 
-# Output directory
-out_dir <- "results/comparison"
+# Output directory (standardized variable name)
+out_dir <- "results/counts_tables_compare/figures"
 dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
 
 # -------------------------------------------------------------------
