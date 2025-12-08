@@ -9,7 +9,7 @@ RUNS_TSV="data/metadata/runs.tsv"
 STAR_INDEX="data/star_index"
 TRIMMED_DIR="data/trimmed_fastq"
 OUT_DIR="data/aligned"
-LOG_DIR="results/logs/star"
+LOG_DIR="results/star/logs"
 
 # How many STAR processes to run in parallel
 # My WSL kept failing so I am trying 1 jobs * 1 thread to limit resource usage. 
