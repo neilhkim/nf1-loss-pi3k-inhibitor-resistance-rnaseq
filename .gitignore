@@ -21,6 +21,10 @@ data/counts/featurecounts/featurecounts_gene_counts.txt
 data/counts/featurecounts/featurecounts_gene_counts.txt.summary
 data/processed/counts_matrix_ensembl.csv
 
+# outputs saved into data/
+data/metadata/runs.tsv
+data/metadata/sample_info.csv
+
 # Large intermediate files
 *.rds
 *.RData
@@ -55,6 +59,3 @@ Log.progress.out
 
 # RStudio files
 .Rproj.user/
-
-# Sample information file (output)
-data/metadata/sample_info.csv

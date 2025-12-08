@@ -61,6 +61,10 @@ This project aims to:
     - NF1 knockout effect, and
     - NF1-driven drug resistance
 
+Supplementary metadata provided in this repo:
+- `data/metadata/GSE207514_treatment_notes.md` — treatment details and mapping notes.
+- `data/metadata/SraRunTable.csv` — GEO SRA run metadata used to derive `runs.tsv`.
+
 ## Primary Comparisons
 
 1. Drug effect in control cells
@@ -282,6 +286,8 @@ Outputs (key locations):
 
 - **Metadata**
   - `data/metadata/runs.tsv` – run-level metadata generated from GEO
+  - `data/metadata/GSE207514_treatment_notes.md` – treatment notes for the experiment
+  - `data/metadata/SraRunTable.csv` – original SRA run table from GEO
 
 - **Raw reads and QC**
   - `data/fastq/` – downloaded FASTQ files (naming matches `runs.tsv`)
