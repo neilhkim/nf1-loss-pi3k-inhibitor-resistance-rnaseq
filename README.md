@@ -33,7 +33,7 @@ This project aims to:
 - **Provide an enhanced analysis** compared to the original study by:
   - Emphasizing KRAS/MAPK vs PI3K signaling using Hallmark + Reactome GSEA and KEGG overlays. 
   - Inspecting heatmaps of top DE genes to visualize FOXO-like drug response programs under Alpelisib (BYL719; the PI3Kα drug used in the study).
-    - *This level of ranked-gene expression patterning is not shown in the original figures and adds a clear view of condition-specific expression shifts.*
+  - *This level of ranked-gene expression patterning is not shown in the original figures and adds a clear view of condition-specific expression shifts.*
 
 ## Background
 
