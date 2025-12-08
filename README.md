@@ -347,7 +347,7 @@ Outputs (key locations):
   - `results/gsea/figures/` – dotplots and selected GSEA curves
 
 - **KEGG overlays and heatmaps**
-  - `results/pathview/figures/` – Pathview KEGG pathway diagrams
+  - `results/pathview/figures/` – Pathview KEGG diagrams saved as `KEGG_<pathway_id>_<label>.png` (e.g., `KEGG_04151_NF1KO_BYL_vs_CTRL_BYL_PI3K_Akt.png`)
   - `results/heatmap/figures/` – pheatmap images for NF1KO_BYL vs CTRL_BYL
   - `results/counts_tables_compare/figures/` – pipeline vs GEO comparison visuals
 

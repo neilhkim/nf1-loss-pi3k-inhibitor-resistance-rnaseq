@@ -35,28 +35,48 @@ run_and_save_pathview <- function(fc_vec, pathway_id, label) {
         pathway.id = pathway_id,
         species = "hsa",
         out.suffix = label,
-        kegg.native = TRUE
+        kegg.native = TRUE,
+        kegg.dir = outdir
     )
 
-    # Two files are created: hsa<id>.<suffix>.png and .xml
+    # Files are created in `outdir`: hsa<id>.<suffix>.png and .xml
     # Example: hsa04151.NF1KO_BYL_vs_CTRL_BYL.png
 
-    pattern <- paste0("hsa", pathway_id, ".*", label, ".*\\.png$")
-    files <- list.files(".", pattern = pattern, full.names = TRUE)
+    # Pathview naming can vary: with out.suffix it may create both
+    # base files (hsa<id>.png/xml) and suffixed ones.
+    pattern_png_suffixed <- paste0("hsa", pathway_id, ".*", label, ".*\\.png$")
+    pattern_xml_suffixed <- paste0("hsa", pathway_id, ".*", label, ".*\\.xml$")
+    files_png <- list.files(outdir, pattern = pattern_png_suffixed, full.names = TRUE)
+    files_xml <- list.files(outdir, pattern = pattern_xml_suffixed, full.names = TRUE)
+    # Fallback to base filenames if suffixed not found
+    if (length(files_png) == 0) {
+        files_png <- list.files(outdir, pattern = paste0("^hsa", pathway_id, "\\.png$"), full.names = TRUE)
+    }
+    if (length(files_xml) == 0) {
+        files_xml <- list.files(outdir, pattern = paste0("^hsa", pathway_id, "\\.xml$"), full.names = TRUE)
+    }
 
-    if (length(files) == 0) {
+    if (length(files_png) == 0) {
         warning(paste("No PNG files found for pathway", pathway_id))
         return(invisible(NULL))
     }
 
-    # Move files into results/pathview/figures/
-    for (f in files) {
-        new_name <- file.path(
-            outdir,
-            paste0("KEGG_", pathway_id, "_", label, ".png")
-        )
-        file.rename(f, new_name)
-        message("Saved: ", new_name)
+    # Rename files inside results/pathview/figures/ to a clearer scheme
+    # PNG: KEGG_<pathway_id>_<label>.png
+    # XML: KEGG_<pathway_id>_<label>.xml
+    for (f in files_png) {
+        new_png <- file.path(outdir, paste0("KEGG_", pathway_id, "_", label, ".png"))
+        if (basename(f) != basename(new_png)) {
+            file.rename(f, new_png)
+        }
+        message("Saved: ", new_png)
+    }
+    for (f in files_xml) {
+        new_xml <- file.path(outdir, paste0("KEGG_", pathway_id, "_", label, ".xml"))
+        if (basename(f) != basename(new_xml)) {
+            file.rename(f, new_xml)
+        }
+        message("Saved: ", new_xml)
     }
 
     invisible(NULL)
