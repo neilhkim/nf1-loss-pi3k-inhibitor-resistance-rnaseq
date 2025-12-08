@@ -6,9 +6,10 @@ set -euo pipefail
 
 INPUT_DIR="data/fastq"
 OUTPUT_DIR="data/trimmed_fastq"
+LOG_DIR="results/trim/logs"
 THREADS="${1:-8}"
 
-mkdir -p "${OUTPUT_DIR}"
+mkdir -p "${OUTPUT_DIR}" "${LOG_DIR}"
 
 echo "[fastp] Input directory: ${INPUT_DIR}"
 echo "[fastp] Output directory: ${OUTPUT_DIR}"
@@ -27,8 +28,8 @@ for fq in "${INPUT_DIR}"/*.fastq.gz; do
     sample="${base%.fastq.gz}"
 
     out_fq="${OUTPUT_DIR}/${sample}_trimmed.fastq.gz"
-    out_html="${OUTPUT_DIR}/${sample}_fastp.html"
-    out_json="${OUTPUT_DIR}/${sample}_fastp.json"
+    out_html="${LOG_DIR}/${sample}_fastp.html"
+    out_json="${LOG_DIR}/${sample}_fastp.json"
 
     echo "[fastp] Processing sample: ${sample}"
     echo "[fastp] Input file: ${fq}"
