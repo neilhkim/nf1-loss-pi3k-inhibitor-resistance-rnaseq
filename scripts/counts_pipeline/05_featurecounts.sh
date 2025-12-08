@@ -8,12 +8,13 @@ RUNS_TSV="data/metadata/runs.tsv"
 BAM_DIR="data/aligned"
 GTF="data/reference/gencode.v45.annotation.gtf"
 OUT_DIR="data/counts/featurecounts"
+LOG_DIR="results/featurecounts/logs"
 
 # featureCounts options
 THREADS="${1:-4}" # Number of threads to use (1st arg). Default: 4
 STRAND=0 # 0 = unstranded, 1 = stranded, 2 = reversely stranded
 
-mkdir -p "${OUT_DIR}"
+mkdir -p "${OUT_DIR}" "${LOG_DIR}"
 
 echo "[featureCounts] Runs table: ${RUNS_TSV}"
 echo "[featureCounts] BAM directory: ${BAM_DIR}"
@@ -65,7 +66,8 @@ featureCounts \
     -g gene_id \
     -t exon \
     -s "${STRAND}" \
-    "${bam_list[@]}"
+    "${bam_list[@]}" 2>"${LOG_DIR}/featurecounts.log"
 
 echo
 echo "[featureCounts] Done. Output written to ${OUT_DIR}/featurecounts_gene_counts.txt"
+echo "[featureCounts] Log written to ${LOG_DIR}/featurecounts.log"
