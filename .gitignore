@@ -2,12 +2,16 @@
 
 # Raw sequencing data
 data/raw/
+data/fastq/
 data/reference/
 data/star_index/
 *.fastq
 *.fastq.gz
 *.fq
 *.fq.gz
+
+# Trimmed reads
+data/trimmed_fastq/
 
 # Alignments
 *.bam
