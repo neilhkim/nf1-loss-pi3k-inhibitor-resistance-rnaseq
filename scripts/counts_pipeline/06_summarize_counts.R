@@ -49,7 +49,7 @@ if (!all(expected_runs_cols %in% colnames(runs))) {
 }
 
 # Column names in counts are BAM paths such as:
-#   results/star/SRR19987593_Aligned.sortedByCoord.out.bam
+#   data/aligned/SRR19987593_Aligned.sortedByCoord.out.bam
 
 bam_paths <- colnames(counts)
 
