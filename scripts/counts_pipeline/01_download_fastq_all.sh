@@ -4,6 +4,9 @@
 
 set -euo pipefail
 
+# Number of threads for fasterq-dump
+THREADS=8
+
 # Directory to store FASTQ files
 OUTDIR="data/fastq"
 mkdir -p "${OUTDIR}"
@@ -48,8 +51,7 @@ SRR19987604
 SRR19987605
 "
 
-# Number of threads for fasterq-dump
-THREADS=8
+
 
 for SRR in ${SRR_LIST}; do 
     FASTQ_GZ="${OUTDIR}/${SRR}.fastq.gz"
