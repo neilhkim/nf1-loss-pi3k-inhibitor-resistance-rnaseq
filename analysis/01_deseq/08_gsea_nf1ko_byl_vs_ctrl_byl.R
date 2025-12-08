@@ -122,7 +122,11 @@ cat("GSEA Hallmark and Reactome results for NF1KO_BYL vs CTRL_BYL saved.\n")
 
 # Hallmark dotplot of top 20 enriched pathways
 p_dot_hallmark <- dotplot(gsea_hallmark, showCategory = 20) +
-    ggtitle("Hallmark GSEA: NF1KO_BYL vs CTRL_BYL")
+    ggtitle("Hallmark GSEA: NF1KO_BYL vs CTRL_BYL") +
+    theme(
+        axis.text.y = element_text(size = 6),
+        plot.margin = margin(t = 5, r = 20, b = 5, l = 120)
+    )
 
 ggsave(
     file.path(gsea_fig_dir, "GSEA_Hallmark_NF1KO_BYL_vs_CTRL_BYL_dotplot.png"),
@@ -134,9 +138,13 @@ ggsave(
 
 cat("Hallmark dotplot saved to results/gsea/figures/GSEA_Hallmark_NF1KO_BYL_vs_CTRL_BYL_dotplot.png\n")
 
-# KEGG dotplot of top 20 enriched pathways
+# Reactome dotplot of top 20 enriched pathways
 p_dot_reactome <- dotplot(gsea_reactome, showCategory = 20) +
-    ggtitle("Reactome GSEA: NF1KO_BYL vs CTRL_BYL")
+    ggtitle("Reactome GSEA: NF1KO_BYL vs CTRL_BYL") +
+    theme(
+        axis.text.y = element_text(size = 6),
+        plot.margin = margin(t = 5, r = 20, b = 5, l = 120)
+    )
 
 ggsave(
     file.path(gsea_fig_dir, "GSEA_Reactome_NF1KO_BYL_vs_CTRL_BYL_dotplot.png"),
