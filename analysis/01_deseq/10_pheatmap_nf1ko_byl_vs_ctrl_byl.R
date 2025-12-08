@@ -121,13 +121,17 @@ mat_scaled <- mat_scaled[, sample_order, drop = FALSE]
 annot_col <- annot_col[sample_order, , drop = FALSE]
 
 ann_colors <- list(
-    genotype = c(CTRL = "#1f78b4", NF1KO = "#e31a1c"),
-    treatment = c(Veh = "#33a02c", BYL = "#ff7f00"),
+    # Genotype: CTRL = teal, NF1KO = pink
+    genotype = c(CTRL = "#1b9e77", NF1KO = "#FC50AB"),
+    # Treatment: Veh = grey, BYL = purple
+    treatment = c(Veh = "#C3C3C3", BYL = "#D677E5"),
+    # Group: pick distinct hues derived from genotype/treatment but still
+    # visually separable from the blue-red expression scale
     group = c(
-        CTRL_Veh = "#a6cee3",
-        CTRL_BYL = "#1f78b4",
-        NF1KO_Veh = "#fb9a99",
-        NF1KO_BYL = "#e31a1c"
+        CTRL_Veh  = "#ccebc5",  # lighter pale green
+        CTRL_BYL  = "#0BD897",  # bluish tint
+        NF1KO_Veh = "#fbb4ae",  # light pink
+        NF1KO_BYL = "#AB0F0F"   # 
     )
 )
 
