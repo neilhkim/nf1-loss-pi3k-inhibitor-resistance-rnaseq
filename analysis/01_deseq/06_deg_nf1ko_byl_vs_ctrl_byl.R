@@ -1,8 +1,10 @@
 # 06_contrast_nf1ko_byl_vs_ctrl_byl.R
 # Perform differential expression analysis for NF1KO_BYL vs CTRL_BYL contrast
 
-library(DESeq2)
-library(tidyverse)
+suppressPackageStartupMessages({
+    library(DESeq2)
+    library(tidyverse)
+})
 
 dds <- readRDS("data/processed/deseq/dds_bylRef.rds")
 
@@ -14,13 +16,14 @@ res_nf1ko_byl <- results(
 summary(res_nf1ko_byl)
 
 # Export as CSV
-if (!dir.exists("results/tables")) {
-    dir.create("results/tables", recursive = TRUE)
+deg_tbl_dir <- "results/deg/tables"
+if (!dir.exists(deg_tbl_dir)) {
+    dir.create(deg_tbl_dir, recursive = TRUE)
 }
 res_tbl <- as.data.frame(res_nf1ko_byl) %>%
     tibble::rownames_to_column("gene")
 
-write.csv(res_tbl, "results/tables/DEG_NF1KO_BYL_vs_CTRL_BYL.csv", row.names = FALSE)
+write.csv(res_tbl, file.path(deg_tbl_dir, "DEG_NF1KO_BYL_vs_CTRL_BYL.csv"), row.names = FALSE)
 
 cat("Differential expression results for NF1KO_BYL vs CTRL_BYL saved.\n")
 
@@ -40,7 +43,7 @@ print(deg_summary)
 # Save DEG table
 write.csv(
     deg_nf1ko_byl,
-    "results/tables/DEG_NF1KO_BYL_vs_CTRL_BYL_sig.csv",
+    file.path(deg_tbl_dir, "DEG_NF1KO_BYL_vs_CTRL_BYL_sig.csv"),
     row.names = FALSE
 )
 cat("Filtered DEG table for NF1KO_BYL vs CTRL_BYL saved.\n")

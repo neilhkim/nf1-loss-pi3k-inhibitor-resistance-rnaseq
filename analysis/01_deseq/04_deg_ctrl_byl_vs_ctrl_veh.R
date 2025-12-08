@@ -1,8 +1,10 @@
 # 04_contrast_ctrl_byl_vs_ctrl_veh
 # Perform differential expression analysis for CTRL_BYL vs CTRL_Veh contrast
 
-library(DESeq2)
-library(tidyverse)
+suppressPackageStartupMessages({
+    library(DESeq2)
+    library(tidyverse)
+})
 
 dds <- readRDS("data/processed/deseq/dds_vehRef.rds")
 
@@ -17,11 +19,12 @@ summary(res_ctrl_byl)
 res_tbl <- as.data.frame(res_ctrl_byl) %>%
     tibble::rownames_to_column("gene")
 
-if (!dir.exists("results/tables")){
-    dir.create("results/tables", recursive = TRUE)
+deg_tbl_dir <- "results/deg/tables"
+if (!dir.exists(deg_tbl_dir)){
+    dir.create(deg_tbl_dir, recursive = TRUE)
 }
 
-write.csv(res_tbl, "results/tables/DEG_CTRL_BYL_vs_CTRL_Veh.csv", row.names = FALSE)
+write.csv(res_tbl, file.path(deg_tbl_dir, "DEG_CTRL_BYL_vs_CTRL_Veh.csv"), row.names = FALSE)
 cat("Differential expression results for CTRL_BYL vs CTRL_Veh saved.\n")
 
 # Filter significant DEGs
@@ -41,7 +44,7 @@ print(deg_summary)
 # Save DEG tale
 write.csv(
     deg_ctrl_byl,
-    "results/tables/DEG_CTRL_BYL_vs_CTRL_Veh_sig.csv",
+    file.path(deg_tbl_dir, "DEG_CTRL_BYL_vs_CTRL_Veh_sig.csv"),
     row.names = FALSE
 )
 cat("Filtered DEG table for CTRL_BYL vs CTRL_Veh saved.\n")

@@ -1,8 +1,10 @@
 # 05_contrast_nf1_veh_vs_ctrl_veh.R
 # Perform differential expression analysis for NF1KO_Veh vs CTRL_Veh contrast
 
-library(DESeq2)
-library(tidyverse)
+suppressPackageStartupMessages({
+    library(DESeq2)
+    library(tidyverse)
+})
 
 dds <- readRDS("data/processed/deseq/dds_vehRef.rds")
 
@@ -14,13 +16,14 @@ res_nf1ko_veh <- results(
 summary(res_nf1ko_veh)
 
 # Export as CSV
-if (!dir.exists("results/tables")) {
-    dir.create("results/tables", recursive = TRUE)
+deg_tbl_dir <- "results/deg/tables"
+if (!dir.exists(deg_tbl_dir)) {
+    dir.create(deg_tbl_dir, recursive = TRUE)
 }
 res_tbl <- as.data.frame(res_nf1ko_veh) %>%
     tibble::rownames_to_column("gene")
 
-write.csv(res_tbl, "results/tables/DEG_NF1KO_Veh_vs_CTRL_Veh.csv", row.names = FALSE)
+write.csv(res_tbl, file.path(deg_tbl_dir, "DEG_NF1KO_Veh_vs_CTRL_Veh.csv"), row.names = FALSE)
 cat("Differential expression results for NF1KO_Veh vs CTRL_Veh saved.\n")
 
 # Filter significant DEGs
@@ -39,7 +42,7 @@ print(deg_summary)
 # Save DEG table
 write.csv(
     deg_nf1ko_veh,
-    "results/tables/DEG_NF1KO_Veh_vs_CTRL_Veh_sig.csv",
+    file.path(deg_tbl_dir, "DEG_NF1KO_Veh_vs_CTRL_Veh_sig.csv"),
     row.names = FALSE
 )
 cat("Filtered DEG table for NF1KO_Veh vs CTRL_Veh saved.\n")

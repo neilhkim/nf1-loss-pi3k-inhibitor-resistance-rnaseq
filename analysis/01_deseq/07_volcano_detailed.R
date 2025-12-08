@@ -6,8 +6,12 @@ suppressPackageStartupMessages({
     library(ggrepel)
 })
 
+# Prepare output directories
+volcano_fig_dir <- "results/volcano/figures"
+dir.create(volcano_fig_dir, showWarnings = FALSE, recursive = TRUE)
+
 # Load gene annotation (ENTREZID -> SYMBOL)
-gene_annot <- readRDS("data/processed/gene_annotations.rds") %>%
+gene_annot <- readRDS("data/processed/gene_annotations_entrez.rds") %>%
     mutate(ENTREZID = as.character(ENTREZID)) %>%
     dplyr::select(ENTREZID, SYMBOL)
 
@@ -135,35 +139,35 @@ get_global_ranges <- function(files) {
 
 # Files for all contrasts
 files <- c(
-    "results/tables/DEG_CTRL_BYL_vs_CTRL_Veh.csv",
-    "results/tables/DEG_NF1KO_Veh_vs_CTRL_Veh.csv",
-    "results/tables/DEG_NF1KO_BYL_vs_CTRL_BYL.csv"
+    "results/deg/tables/DEG_CTRL_BYL_vs_CTRL_Veh.csv",
+    "results/deg/tables/DEG_NF1KO_Veh_vs_CTRL_Veh.csv",
+    "results/deg/tables/DEG_NF1KO_BYL_vs_CTRL_BYL.csv"
 )
 
 ranges <- get_global_ranges(files)
 
 make_volcano_labeled(
-    infile = "results/tables/DEG_CTRL_BYL_vs_CTRL_Veh.csv",
+    infile = "results/deg/tables/DEG_CTRL_BYL_vs_CTRL_Veh.csv",
     contrast_label = "CTRL_BYL vs CTRL_Veh",
-    outfile_png = "results/figures/volcano_CTRL_BYL_vs_CTRL_Veh_labeled.png",
+    outfile_png = file.path(volcano_fig_dir, "volcano_CTRL_BYL_vs_CTRL_Veh_labeled.png"),
     top_n = 12,
     xlim_range = ranges$xlim,
     ylim_max = ranges$ylim
 )
 
 make_volcano_labeled(
-    infile = "results/tables/DEG_NF1KO_Veh_vs_CTRL_Veh.csv",
+    infile = "results/deg/tables/DEG_NF1KO_Veh_vs_CTRL_Veh.csv",
     contrast_label = "NF1KO_Veh vs CTRL_Veh",
-    outfile_png = "results/figures/volcano_NF1KO_Veh_vs_CTRL_Veh_labeled.png",
+    outfile_png = file.path(volcano_fig_dir, "volcano_NF1KO_Veh_vs_CTRL_Veh_labeled.png"),
     top_n = 12,
     xlim_range = ranges$xlim,
     ylim_max = ranges$ylim
 )
 
 make_volcano_labeled(
-    infile = "results/tables/DEG_NF1KO_BYL_vs_CTRL_BYL.csv",
+    infile = "results/deg/tables/DEG_NF1KO_BYL_vs_CTRL_BYL.csv",
     contrast_label = "NF1KO_BYL vs CTRL_BYL",
-    outfile_png = "results/figures/volcano_NF1KO_BYL_vs_CTRL_BYL_labeled.png",
+    outfile_png = file.path(volcano_fig_dir, "volcano_NF1KO_BYL_vs_CTRL_BYL_labeled.png"),
     top_n = 12,
     xlim_range = ranges$xlim,
     ylim_max = ranges$ylim

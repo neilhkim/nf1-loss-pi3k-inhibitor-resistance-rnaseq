@@ -15,12 +15,13 @@ set.seed(42)
 
 # 0. Output folders ------------------
 
-if (!dir.exists("results/tables")) {
-    dir.create("results/tables", recursive = TRUE)
+gsea_tbl_dir <- "results/gsea/tables"
+gsea_fig_dir <- "results/gsea/figures"
+if (!dir.exists(gsea_tbl_dir)) {
+    dir.create(gsea_tbl_dir, recursive = TRUE)
 }
-
-if (!dir.exists("results/figures")) {
-    dir.create("results/figures", recursive = TRUE)
+if (!dir.exists(gsea_fig_dir)) {
+    dir.create(gsea_fig_dir, recursive = TRUE)
 }
 
 # 1. Load fitted DESeq2 object ------------------
@@ -50,7 +51,7 @@ res_tbl <- as.data.frame(res_nf1ko_byl_shrunk) %>%
 # Save the shrunken results table
 write_csv(
     res_tbl,
-    "results/tables/NF1KO_BYL_vs_CTRL_BYL_shrunk_results.csv"
+    file.path(gsea_tbl_dir, "NF1KO_BYL_vs_CTRL_BYL_shrunk_results.csv")
 )
 
 cat("Shrunken DESeq2 results for NF1KO_BYL vs CTRL_BYL saved.\n")
@@ -108,11 +109,11 @@ gsea_r_tbl <- as.data.frame(gsea_reactome)
 
 write_csv(
     gsea_h_tbl,
-    "results/tables/GSEA_Hallmark_NF1KO_BYL_vs_CTRL_BYL.csv"
+    file.path(gsea_tbl_dir, "GSEA_Hallmark_NF1KO_BYL_vs_CTRL_BYL.csv")
 )
 write_csv(
     gsea_r_tbl,
-    "results/tables/GSEA_Reactome_NF1KO_BYL_vs_CTRL_BYL.csv"
+    file.path(gsea_tbl_dir, "GSEA_Reactome_NF1KO_BYL_vs_CTRL_BYL.csv")
 )
 
 cat("GSEA Hallmark and Reactome results for NF1KO_BYL vs CTRL_BYL saved.\n")
@@ -124,28 +125,28 @@ p_dot_hallmark <- dotplot(gsea_hallmark, showCategory = 20) +
     ggtitle("Hallmark GSEA: NF1KO_BYL vs CTRL_BYL")
 
 ggsave(
-    "results/figures/GSEA_Hallmark_NF1KO_BYL_vs_CTRL_BYL_dotplot.png",
+    file.path(gsea_fig_dir, "GSEA_Hallmark_NF1KO_BYL_vs_CTRL_BYL_dotplot.png"),
     p_dot_hallmark,
     width = 8,
     height = 6,
     dpi = 300
 )
 
-cat("Hallmark dotplot saved to results/figures/GSEA_Hallmark_NF1KO_BYL_vs_CTRL_BYL_dotplot.png\n")
+cat("Hallmark dotplot saved to results/gsea/figures/GSEA_Hallmark_NF1KO_BYL_vs_CTRL_BYL_dotplot.png\n")
 
 # KEGG dotplot of top 20 enriched pathways
 p_dot_reactome <- dotplot(gsea_reactome, showCategory = 20) +
     ggtitle("Reactome GSEA: NF1KO_BYL vs CTRL_BYL")
 
 ggsave(
-    "results/figures/GSEA_Reactome_NF1KO_BYL_vs_CTRL_BYL_dotplot.png",
+    file.path(gsea_fig_dir, "GSEA_Reactome_NF1KO_BYL_vs_CTRL_BYL_dotplot.png"),
     p_dot_reactome,
     width = 8,
     height = 6,
     dpi = 300
 )
 
-cat("Reactome dotplot saved to results/figures/GSEA_Reactome_NF1KO_BYL_vs_CTRL_BYL_dotplot.png\n")
+cat("Reactome dotplot saved to results/gsea/figures/GSEA_Reactome_NF1KO_BYL_vs_CTRL_BYL_dotplot.png\n")
 
 # 7. Show a specific pathway in detail ------------------
 
@@ -159,7 +160,7 @@ if ("HALLMARK_PI3K_AKT_MTOR_SIGNALING" %in% gsea_hallmark@result$ID) {
         title = "GSEA: PI3K/AKT/mTOR SIGNALING"
     )
     ggsave(
-        "results/figures/GSEA_Hallmark_PI3K_AKT_MTOR_SIGNALING.png",
+        file.path(gsea_fig_dir, "GSEA_Hallmark_PI3K_AKT_MTOR_SIGNALING.png"),
         p_pi3k,
         width = 8,
         height = 6,
@@ -175,7 +176,7 @@ if ("HALLMARK_KRAS_SIGNALING_UP" %in% gsea_hallmark@result$ID) {
         title = "Hallmark GSEA: KRAS SIGNALING UP"
     )
     ggsave(
-        "results/figures/GSEA_Hallmark_KRAS_SIGNALING_UP.png",
+        file.path(gsea_fig_dir, "GSEA_Hallmark_KRAS_SIGNALING_UP.png"),
         p_kras,
         width = 8,
         height = 6,
@@ -203,7 +204,7 @@ if (!is.null(reactome_res) && any(grepl("PI3K", reactome_res$Description, ignore
     )
 
     ggsave(
-        "results/figures/GSEA_Reactome_PI3K_Pathway.png",
+        file.path(gsea_fig_dir, "GSEA_Reactome_PI3K_Pathway.png"),
         p_reactome_pi3k,
         width = 8,
         height = 6,
@@ -227,7 +228,7 @@ if (!is.null(reactome_res) && any(grepl("MAPK", reactome_res$Description, ignore
     )
 
     ggsave(
-        "results/figures/GSEA_Reactome_MAPK_Pathway.png",
+        file.path(gsea_fig_dir, "GSEA_Reactome_MAPK_Pathway.png"),
         p_reactome_mapk,
         width = 8,
         height = 6,

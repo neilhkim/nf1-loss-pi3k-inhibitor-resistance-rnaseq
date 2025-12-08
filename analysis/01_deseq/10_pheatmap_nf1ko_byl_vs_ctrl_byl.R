@@ -14,11 +14,13 @@ set.seed(123) # for reproducibility (pheatmap clustering)
 
 # 1. Paths -----------
 
-vsd_file <- "results/deseq/vsd.rds"
-deg_file <- "results/tables/NF1KO_BYL_vs_CTRL_BYL_shrunk_results.csv"
-gene_annot_file <- "data/processed/gene_annotations.rds"
-out_png <- "results/figures/heatmap_NF1KO_BYL_vs_CTRL_BYL_top50.png"
-out_pdf <- "results/figures/heatmap_NF1KO_BYL_vs_CTRL_BYL_top50.pdf"
+vsd_file <- "data/processed/deseq/vsd.rds"
+deg_file <- "results/deg/tables/DEG_NF1KO_BYL_vs_CTRL_BYL.csv"
+gene_annot_file <- "data/processed/gene_annotations_entrez.rds"
+out_fig_dir <- "results/heatmap/figures"
+if (!dir.exists(out_fig_dir)) dir.create(out_fig_dir, recursive = TRUE)
+out_png <- file.path(out_fig_dir, "heatmap_NF1KO_BYL_vs_CTRL_BYL_top50.png")
+out_pdf <- file.path(out_fig_dir, "heatmap_NF1KO_BYL_vs_CTRL_BYL_top50.pdf")
 
 # 2. Load data -----------
 
@@ -26,7 +28,7 @@ message("Loading VST object...")
 vsd <- readRDS(vsd_file)
 
 deg <- read_csv(
-    "results/tables/DEG_NF1KO_BYL_vs_CTRL_BYL.csv",
+    deg_file,
     show_col_types = FALSE
 ) %>%
     filter(
@@ -39,7 +41,7 @@ deg <- read_csv(
         padj = ifelse(padj == 0, 1e-320, padj)  # avoid -Inf in -log10
     )
 
-gene_annot <- readRDS("data/processed/gene_annotations.rds") %>%
+gene_annot <- readRDS(gene_annot_file) %>%
     mutate(ENTREZID = as.character(ENTREZID)) %>%
     select(ENTREZID, SYMBOL)
 

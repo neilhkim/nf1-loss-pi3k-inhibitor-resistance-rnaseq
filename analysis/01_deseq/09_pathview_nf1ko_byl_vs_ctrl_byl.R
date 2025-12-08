@@ -9,7 +9,7 @@ suppressPackageStartupMessages({
 
 # 1. Load shrunken log2FC results ------------------
 res_tbl <- readr::read_csv(
-    "results/tables/NF1KO_BYL_vs_CTRL_BYL_shrunk_results.csv",
+    "results/gsea/tables/NF1KO_BYL_vs_CTRL_BYL_shrunk_results.csv",
     show_col_types = FALSE
 )
 
@@ -23,7 +23,7 @@ fc_vec <- res_tbl$log2FoldChange
 names(fc_vec) <- res_tbl$ENTREZID
 
 # 2. Output directory ------------------
-outdir <- "results/pathview"
+outdir <- "results/pathview/figures"
 if (!dir.exists(outdir)) {
     dir.create(outdir, recursive = TRUE)
 }
@@ -35,7 +35,7 @@ run_and_save_pathview <- function(fc_vec, pathway_id, label) {
         pathway.id = pathway_id,
         species = "hsa",
         out.suffix = label,
-        kegg.native = TRUE,
+        kegg.native = TRUE
     )
 
     # Two files are created: hsa<id>.<suffix>.png and .xml
@@ -49,7 +49,7 @@ run_and_save_pathview <- function(fc_vec, pathway_id, label) {
         return(invisible(NULL))
     }
 
-    # Move files into results/pathview/
+    # Move files into results/pathview/figures/
     for (f in files) {
         new_name <- file.path(
             outdir,

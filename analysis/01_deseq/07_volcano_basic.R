@@ -1,16 +1,20 @@
 # 07_volcano_plots.R
 # Make volcano plots for the three main contrasts
 
-library(tidyverse)
+suppressPackageStartupMessages({
+    library(tidyverse)
+})
 
-# Create output folder if needed
-if (!dir.exists("results/tables")) {
-    dir.create("results/tables", recursive = TRUE)
-}
+# Ensure volcano output folders exist
+# Use a dedicated volcano output area
+volcano_fig_dir <- "results/volcano/figures"
+volcano_log_dir <- "results/volcano/logs"
+if (!dir.exists(volcano_fig_dir)) dir.create(volcano_fig_dir, recursive = TRUE)
+if (!dir.exists(volcano_log_dir)) dir.create(volcano_log_dir, recursive = TRUE)
 
 # Helper function to build one volcano plot -----
 
-make_volcano <- function(infile, contrast_label, outfile) {
+make_volcano <- function(infile, contrast_label, outfile, log_file) {
     # infile: path to CSV with full DESeq2 results
     # contrast_label: nice label for the title
     # outfile: path to save PNG
@@ -49,8 +53,13 @@ make_volcano <- function(infile, contrast_label, outfile) {
         height = 5,
         dpi = 300
     )
-
-    cat("Volcano plot saved to:", outfile, "\n")
+    # append a brief log entry
+    write(
+        paste0(Sys.time(), "\t", contrast_label, "\t", outfile),
+        file = log_file,
+        append = TRUE
+    )
+    cat("[deseq] Volcano plot saved to:", outfile, "\n")
 }
 
 # -----------------------------------------------------------------------
@@ -58,9 +67,10 @@ make_volcano <- function(infile, contrast_label, outfile) {
 # -----------------------------------------------------------------------
 
 make_volcano(
-    infile = "results/tables/DEG_CTRL_BYL_vs_CTRL_Veh.csv",
+    infile = "results/deg/tables/DEG_CTRL_BYL_vs_CTRL_Veh.csv",
     contrast_label = "CTRL_BYL vs CTRL_Veh",
-    outfile = "results/figures/volcano_CTRL_BYL_vs_CTRL_Veh.png"
+    outfile = file.path(volcano_fig_dir, "volcano_CTRL_BYL_vs_CTRL_Veh.png"),
+    log_file = file.path(volcano_log_dir, "volcano.log")
 )
 
 # -----------------------------------------------------------------------
@@ -68,9 +78,10 @@ make_volcano(
 # -----------------------------------------------------------------------
 
 make_volcano(
-    infile = "results/tables/DEG_NF1KO_Veh_vs_CTRL_Veh.csv",
+    infile = "results/deg/tables/DEG_NF1KO_Veh_vs_CTRL_Veh.csv",
     contrast_label = "NF1KO_Veh vs CTRL_Veh",
-    outfile = "results/figures/volcano_NF1KO_Veh_vs_CTRL_Veh.png"
+    outfile = file.path(volcano_fig_dir, "volcano_NF1KO_Veh_vs_CTRL_Veh.png"),
+    log_file = file.path(volcano_log_dir, "volcano.log")
 )
 
 # -----------------------------------------------------------------------
@@ -78,9 +89,10 @@ make_volcano(
 # -----------------------------------------------------------------------
 
 make_volcano(
-    infile = "results/tables/DEG_NF1KO_BYL_vs_CTRL_BYL.csv",
+    infile = "results/deg/tables/DEG_NF1KO_BYL_vs_CTRL_BYL.csv",
     contrast_label = "NF1KO_BYL vs CTRL_BYL",
-    outfile = "results/figures/volcano_NF1KO_BYL_vs_CTRL_BYL.png"
+    outfile = file.path(volcano_fig_dir, "volcano_NF1KO_BYL_vs_CTRL_BYL.png"),
+    log_file = file.path(volcano_log_dir, "volcano.log")
 )
 
-cat("All volcano plots generated.\n")
+cat("[deseq] All volcano plots generated.\n")
