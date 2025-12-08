@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-# 07_convert_ensembl_to_entrez.R
+# 07_convert_ensembl_to_entrez_and_symbol.R
 # Convert pipeline Ensembl based counts_matrix_generated.rds
 # to ENTREZID and SYMBOL based versions for DESeq2
 
