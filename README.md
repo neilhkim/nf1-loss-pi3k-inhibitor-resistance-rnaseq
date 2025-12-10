@@ -92,6 +92,8 @@ The analysis is organized into two stages:
 
 This folder contains a complete count-generation pipeline that produces a raw gene-by-sample count matrix from FASTQ files.  
 
+(*Warning: It took 3+ days on my laptop to run this process. You may jump to the `analysis` pipeline and use the GEO-provided count table instead."*)
+
 The workflow:
 
 1. **Create run metadata**
