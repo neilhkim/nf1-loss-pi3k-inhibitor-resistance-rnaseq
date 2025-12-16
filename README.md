@@ -18,11 +18,11 @@ These three contrasts correspond to:
 
 The original paper does not explicitly describe this three-contrast design for the T47D RNA-seq subset; here it is made explicit to clarify the experimental logic.
 
-Through this, I was able to highlight detailed features such as the FOXO-associated inhibitor response in CTRL cells, reflecting a classical stress program induced by PI3K inhibition, and persistent MAPK, E2F, MYC, and G2M activity in NF1-KO cells under the inhibition, which act as bypass mechanisms that sustain proliferation. 
+I have highlighted detailed features such as the FOXO-associated inhibitor response in CTRL cells, reflecting a classical stress program induced by PI3K inhibition. Additionally, I observed persistent MAPK, E2F, MYC, and G2M activity in NF1-KO cells under this inhibition, which act as bypass mechanisms that sustain proliferation. 
 
-While the original study does not specify the methods, I use STAR, featureCounts for alignment and quantification. For differential expression, I use DESeq2, while the authors have used edgeR (see Tables S6 and S7 of the paper). I also use Hallmark and Reactome gene sets for pathway-level enrichment analysis, while the authors used Hallmark and MsigDB (see Figure S3 of the paper). 
+While the original study does not specify the methods, I used STAR and featureCounts for alignment and quantification. For differential expression analysis, I employed DESeq2, whereas the authors used edgeR (see Tables S6 and S7 of the paper). I also utilized Hallmark and Reactome gene sets for pathway-level enrichment analysis, while the authors used Hallmark and MsigDB (see Figure S3 of the paper).
 
-Using alternative methods where the authors' method is known helps validate the robustness and reproducibility of their reported findings.
+Using methods different to the original study helps validate the robustness and reproducibility of their reported findings.
 
 ---
 
