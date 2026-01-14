@@ -2,27 +2,25 @@
 
 This repo is an **independent reanalysis** of public RNA-seq data from **[GSE207514](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE207514)**, provided as part of the study by Auf der Maur et. al, Cell Rep Med, 2023 ([PMID: 37044095](https://pubmed.ncbi.nlm.nih.gov/37044095/)).
 
-While the authors present a large and multi-modal study, which delivers an insightful story, the analysis details for the GSE207514 (T47D RNA-seq) dataset are not provided. 
+While the details of the analysis of the GSE207514 (T47D RNA-seq) dataset are limited, this project uses clearly specified methods (often different from the original authors' methods) to reanalyze and provide more details extracted from the analysis. The purpose is to validate the robustness and reproducibility and find unreported insights.
 
 This repository reconstructs the complete RNA-seq workflow from the raw FASTQ files, including 
 - Read processing (STAR + featureCounts), 
 - DESeq2 modeling, 
 - Visualization (PCA, volcano plots, heatmaps), and 
 - Pathway-level exploration (Hallmark/Reactome GSEA + KEGG via Pathview), 
-as well as an **explicit three-contrast design** for this dataset:
+as well as an **explicit three-contrast design** (not used in the source paper) for this dataset:
 
 These three contrasts correspond to:
 1. CTRL_BYL vs CTRL_Veh – drug effect in NF1-intact cells.
 2. NF1_Veh vs CTRL_Veh – baseline transcriptional effect of NF1 loss.
 3. NF1_BYL vs CTRL_BYL – NF1-mediated resistance under PI3Kα inhibition.
 
-The original paper does not explicitly describe this three-contrast design for the T47D RNA-seq subset; here it is made explicit to clarify the experimental logic.
+As a result, unreported details such as the FOXO-associated inhibitor response in CTRL cells can be seen from the conclusion of this analysis, which reflects a classical stress program induced by PI3K inhibition. Additionally, persistent MAPK, E2F, MYC, and G2M activity in NF1-KO cells are clearly seen, demonstrating a clear mark of the bypass mechanism. 
 
-I have highlighted detailed features such as the FOXO-associated inhibitor response in CTRL cells, reflecting a classical stress program induced by PI3K inhibition. Additionally, I observed persistent MAPK, E2F, MYC, and G2M activity in NF1-KO cells under this inhibition, which act as bypass mechanisms that sustain proliferation. 
+Compared to the origianl study, the unreported alignment and quantification methods are specified (STAR + featureCounts), and a different differential expression analysis method (DESeq2) is used (EdgeR is used in the original paper. See Tables S6 and S7). Addional analyses (Reactome gene sets for pathway-level enrichment analysis) are used (Hallmark and MsigDB are used in the original paper. See Figure S3). Application of these methods validated the robustness of original work and extracted unreported information.
 
-While the original study does not specify the methods, I used STAR and featureCounts for alignment and quantification. For differential expression analysis, I employed DESeq2, whereas the authors used edgeR (see Tables S6 and S7 of the paper). I also utilized Hallmark and Reactome gene sets for pathway-level enrichment analysis, while the authors used Hallmark and MsigDB (see Figure S3 of the paper).
 
-Using methods different to the original study helps validate the robustness and reproducibility of their reported findings.
 
 ---
 
@@ -30,11 +28,10 @@ This project aims to:
 
 - **Demonstrates my skills** in RNA-seq analysis (STAR alignment, DESeq2, GSEA, Pathview, visualization) on a real oncology signaling dataset.
 - **Reproduce and validate the authors' main conclusions** about NF1-loss-mediated resistance to the PI3Kα inhibitor Alpelisib.
-- **Provide an enhanced analysis** compared to the original study by:
+- **Provide analyses that goes beyond the original work** by:
   - Emphasizing KRAS/MAPK vs PI3K signaling using Hallmark + Reactome GSEA and KEGG overlays. 
   - Inspecting heatmaps of top DE genes to visualize FOXO-like drug response programs under Alpelisib (BYL719; the PI3Kα drug used in the study).
-  - *This level of ranked-gene expression patterning is not shown in the original figures and adds a clear view of condition-specific expression shifts.*
-
+ 
 ## Background
 
 - The PI3K/AKT/mTOR signaling axis is a key driver in hormone receptor-positive (HR+) / HER2-negative breast cancer.
@@ -83,12 +80,12 @@ Supplementary metadata provided in this repo:
 
 The analysis is organized into two stages:
 
-1. **`scripts/counts_pipeline/`** – scripts that will regenerate the raw count matrix from FASTQ files.
-2. **`analysis/01_deseq/`** – the full downstream DESeq2-based transcriptomic analysis used in this reanalysis.
+I. **`scripts/counts_pipeline/`** – scripts that will regenerate the raw count matrix from FASTQ files.
+II. **`analysis/01_deseq/`** – the full downstream DESeq2-based transcriptomic analysis used in this reanalysis.
 
 ---
 
-### `scripts/counts_pipeline/` 
+### I. `scripts/counts_pipeline/` 
 
 This folder contains a complete count-generation pipeline that produces a raw gene-by-sample count matrix from FASTQ files.  
 
@@ -133,7 +130,7 @@ The count table provided by GSE207514 will be validated from this output reprodu
 
 ---
 
-### `analysis/01_deseq/` – Downstream RNA-seq analysis
+### II. `analysis/01_deseq/` – Downstream RNA-seq analysis
 
 This folder contains all steps from count loading to differential expression, visualization, and pathway interpretation.
 
