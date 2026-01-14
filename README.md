@@ -81,6 +81,7 @@ Supplementary metadata provided in this repo:
 The analysis is organized into two stages:
 
 I. **`scripts/counts_pipeline/`** – scripts that will regenerate the raw count matrix from FASTQ files.
+
 II. **`analysis/01_deseq/`** – the full downstream DESeq2-based transcriptomic analysis used in this reanalysis.
 
 ---
