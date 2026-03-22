@@ -219,7 +219,9 @@ Zooming in to see individual gene expression levels (relative to the mean) among
 #### Volcano plot (NF1KO_BYL vs CTRL_BYL)
 <img src="results_preview/volcano_NF1KO_BYL_vs_CTRL_BYL_labeled.png" alt="Volcano" width="400">
 
-#### Hallmark GSEA dotplot
+#### Hallmark GSEA plots
+<img src="results_preview/GSEA_Hallmark_KRAS_SIGNALING_UP.png" alt="GSEA Hallmark" width="400">
+
 <img src="results_preview/GSEA_Hallmark_NF1KO_BYL_vs_CTRL_BYL_dotplot.png" alt="GSEA Hallmark" width="400">
 
 #### Heatmap of top DE genes
